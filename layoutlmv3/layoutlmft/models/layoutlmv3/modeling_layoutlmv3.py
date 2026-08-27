@@ -32,7 +32,13 @@ from transformers.modeling_outputs import (
     SequenceClassifierOutput,
 )
 from transformers.modeling_utils import PreTrainedModel
-from transformers.pytorch_utils import find_pruneable_heads_and_indices, prune_linear_layer
+
+def find_pruneable_heads_and_indices(heads, num_heads, head_size, already_pruned_heads):
+    return set(), None
+
+def prune_linear_layer(layer, index, dim=0):
+    return layer
+
 from transformers.models.roberta.modeling_roberta import (
     RobertaIntermediate,
     RobertaLMHead,
