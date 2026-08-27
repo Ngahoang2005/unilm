@@ -784,9 +784,10 @@ class LayoutLMv3Model(LayoutLMv3PreTrainedModel):
         self.visual_bbox = torch.cat([cls_token_box, visual_bbox], dim=0)
 
     def _calc_visual_bbox(self, device, dtype, bsz):  # , img_size=(14, 14), max_len=1000):
-        visual_bbox = self.visual_bbox.clone().detach().repeat(bsz, 1, 1)[cite: 2]
-        visual_bbox = visual_bbox.to(device).type(dtype)[cite: 2]
-        return visual_bbox[cite: 2]
+        def _calc_visual_bbox(self, device, dtype, bsz):  # , img_size=(14, 14), max_len=1000):
+        visual_bbox = self.visual_bbox.clone().detach().repeat(bsz, 1, 1)
+        visual_bbox = visual_bbox.to(device).type(dtype)
+        return visual_bbox
 
     def forward_image(self, x):
         if self.detection:
