@@ -262,7 +262,7 @@ def main():
         use_auth_token=True if model_args.use_auth_token else None,
     )
     tokenizer = RobertaTokenizerFast.from_pretrained(
-        model_args.tokenizer_name if model_args.tokenizer_name else model_args.model_name_or_path,
+        "roberta-base",  # <--- CHỈ CẦN SỬA DÒNG NÀY (THAY BẰNG CHUỖI CỐ ĐỊNH)
         cache_dir=model_args.cache_dir,
         add_prefix_space=True,
         revision=model_args.model_revision,
