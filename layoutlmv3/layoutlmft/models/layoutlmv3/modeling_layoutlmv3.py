@@ -31,7 +31,8 @@ from transformers.modeling_outputs import (
     QuestionAnsweringModelOutput,
     SequenceClassifierOutput,
 )
-from transformers.modeling_utils import PreTrainedModel, find_pruneable_heads_and_indices, prune_linear_layer
+from transformers.modeling_utils import PreTrainedModel
+from transformers.pytorch_utils import find_pruneable_heads_and_indices, prune_linear_layer
 from transformers.models.roberta.modeling_roberta import (
     RobertaIntermediate,
     RobertaLMHead,
