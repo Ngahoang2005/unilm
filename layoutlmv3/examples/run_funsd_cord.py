@@ -204,9 +204,8 @@ def main():
     set_seed(training_args.seed)
 
     if data_args.dataset_name == 'funsd':
-        # datasets = load_dataset("nielsr/funsd")
-        import layoutlmft.data.funsd
-        datasets = load_dataset(os.path.abspath(layoutlmft.data.funsd.__file__), cache_dir=model_args.cache_dir, trust_remote_code=True)
+        # Load trực tiếp dataset bản chuẩn từ HuggingFace
+        datasets = load_dataset("nielsr/funsd-layoutlmv3", cache_dir=model_args.cache_dir)
     elif data_args.dataset_name == 'cord':
         import layoutlmft.data.cord
         datasets = load_dataset(os.path.abspath(layoutlmft.data.cord.__file__), cache_dir=model_args.cache_dir, trust_remote_code=True)
@@ -352,8 +351,8 @@ def main():
             bboxes.append(bbox_inputs)
 
             if data_args.visual_embed:
-                ipath = examples["image_path"][org_batch_index]
-                img = pil_loader(ipath)
+                # Lấy trực tiếp object ảnh từ dataset và convert sang RGB
+                img = examples["image"][org_batch_index].convert("RGB")
                 for_patches, _ = common_transform(img, augmentation=augmentation)
                 patch = patch_transform(for_patches)
                 images.append(patch)
