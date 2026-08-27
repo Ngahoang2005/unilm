@@ -17,6 +17,7 @@ from transformers import (
     AutoConfig,
     AutoModelForTokenClassification,
     AutoTokenizer,
+    RobertaTokenizerFast,
     HfArgumentParser,
     PreTrainedTokenizerFast,
     Trainer,
@@ -260,11 +261,9 @@ def main():
         input_size=data_args.input_size,
         use_auth_token=True if model_args.use_auth_token else None,
     )
-    tokenizer = AutoTokenizer.from_pretrained(
+    tokenizer = RobertaTokenizerFast.from_pretrained(
         model_args.tokenizer_name if model_args.tokenizer_name else model_args.model_name_or_path,
-        #tokenizer_file=None,  # avoid loading from a cached file of the pre-trained model in another machine
         cache_dir=model_args.cache_dir,
-        use_fast=True,
         add_prefix_space=True,
         revision=model_args.model_revision,
         use_auth_token=True if model_args.use_auth_token else None,
