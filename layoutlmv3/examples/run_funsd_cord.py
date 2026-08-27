@@ -262,7 +262,7 @@ def main():
     )
     tokenizer = AutoTokenizer.from_pretrained(
         model_args.tokenizer_name if model_args.tokenizer_name else model_args.model_name_or_path,
-        tokenizer_file=None,  # avoid loading from a cached file of the pre-trained model in another machine
+        #tokenizer_file=None,  # avoid loading from a cached file of the pre-trained model in another machine
         cache_dir=model_args.cache_dir,
         use_fast=True,
         add_prefix_space=True,
