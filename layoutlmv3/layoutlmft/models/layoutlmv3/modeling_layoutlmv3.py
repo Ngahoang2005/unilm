@@ -218,6 +218,7 @@ class LayoutLMv3PreTrainedModel(PreTrainedModel):
 
     config_class = LayoutLMv3Config
     base_model_prefix = "layoutlmv3"
+    all_tied_weights_keys = {}
 
     # Copied from transformers.models.bert.modeling_bert.BertPreTrainedModel._init_weights
     def _init_weights(self, module):
