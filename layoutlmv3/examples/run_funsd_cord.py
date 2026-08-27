@@ -206,10 +206,10 @@ def main():
     if data_args.dataset_name == 'funsd':
         # datasets = load_dataset("nielsr/funsd")
         import layoutlmft.data.funsd
-        datasets = load_dataset(os.path.abspath(layoutlmft.data.funsd.__file__), cache_dir=model_args.cache_dir)
+        datasets = load_dataset(os.path.abspath(layoutlmft.data.funsd.__file__), cache_dir=model_args.cache_dir, trust_remote_code=True)
     elif data_args.dataset_name == 'cord':
         import layoutlmft.data.cord
-        datasets = load_dataset(os.path.abspath(layoutlmft.data.cord.__file__), cache_dir=model_args.cache_dir)
+        datasets = load_dataset(os.path.abspath(layoutlmft.data.cord.__file__), cache_dir=model_args.cache_dir, trust_remote_code=True)
     else:
         raise NotImplementedError()
 
