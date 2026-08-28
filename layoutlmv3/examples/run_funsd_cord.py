@@ -249,10 +249,10 @@ def main():
         input_size=data_args.input_size,
         #use_auth_token=True if model_args.use_auth_token else None,
     )
-    tokenizer = AutoTokenizer.from_pretrained(
-        model_args.model_name_or_path,
-        add_prefix_space=True,
+    tokenizer = RobertaTokenizerFast.from_pretrained(
+        model_args.model_name_or_path,   # dùng đúng checkpoint LayoutLMv3, không hardcode "roberta-base"
         cache_dir=model_args.cache_dir,
+        add_prefix_space=True,
         revision=model_args.model_revision,
     )
     model = AutoModelForTokenClassification.from_pretrained(
