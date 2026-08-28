@@ -969,7 +969,14 @@ class LayoutLMv3Model(LayoutLMv3PreTrainedModel):
                 position_ids = position_ids.expand_as(input_ids)
                 final_position_ids = position_ids
 
-        extended_attention_mask: torch.Tensor = self.get_extended_attention_mask(attention_mask, input_shape)
+        if attention_mask.dim() == 3:
+            extended_attention_mask = attention_mask[:, None, :, :]
+        elif attention_mask.dim() == 2:
+            extended_attention_mask = attention_mask[:, None, None, :]
+        else:
+            raise ValueError(f"Wrong shape for attention_mask (shape {attention_mask.shape})")
+        extended_attention_mask = extended_attention_mask.to(dtype=self.dtype) # fp16 compatibility
+        extended_attention_mask = (1.0 - extended_attention_mask) * -10000.0
 
         encoder_outputs = self.encoder(
             embedding_output,
