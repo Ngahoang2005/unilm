@@ -969,7 +969,7 @@ class LayoutLMv3Model(LayoutLMv3PreTrainedModel):
                 position_ids = position_ids.expand_as(input_ids)
                 final_position_ids = position_ids
 
-        extended_attention_mask: torch.Tensor = self.get_extended_attention_mask(attention_mask, input_shape, device)
+        extended_attention_mask: torch.Tensor = self.get_extended_attention_mask(attention_mask, input_shape)
 
         encoder_outputs = self.encoder(
             embedding_output,
