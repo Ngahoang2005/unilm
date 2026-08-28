@@ -249,12 +249,11 @@ def main():
         input_size=data_args.input_size,
         #use_auth_token=True if model_args.use_auth_token else None,
     )
-    tokenizer = RobertaTokenizerFast.from_pretrained(
-        "roberta-base",  # <--- CHỈ CẦN SỬA DÒNG NÀY (THAY BẰNG CHUỖI CỐ ĐỊNH)
-        cache_dir=model_args.cache_dir,
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_args.model_name_or_path,
         add_prefix_space=True,
+        cache_dir=model_args.cache_dir,
         revision=model_args.model_revision,
-        #use_auth_token=True if model_args.use_auth_token else None,
     )
     model = AutoModelForTokenClassification.from_pretrained(
         model_args.model_name_or_path,
