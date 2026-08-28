@@ -783,10 +783,27 @@ class LayoutLMv3Model(LayoutLMv3PreTrainedModel):
         cls_token_box = torch.tensor([[0 + 1, 0 + 1, max_len - 1, max_len - 1]])
         self.visual_bbox = torch.cat([cls_token_box, visual_bbox], dim=0)
 
-    def _calc_visual_bbox(self, device, dtype, bsz):
-        visual_bbox = self.visual_bbox.repeat(bsz, 1, 1)
-        visual_bbox = visual_bbox.clone().detach().to(device).type(dtype)  # <--- SỬA THÀNH DÒNG NÀY
-        return visual_bbox
+    def _calc_visual_bbox(self, device, dtype, bsz, img_size=(14, 14), max_len=1000):
+        visual_bbox_x = torch.div(torch.arange(0, max_len * (img_size[1] + 1), max_len, device=device),
+                                  img_size[1], rounding_mode='trunc')
+        visual_bbox_y = torch.div(torch.arange(0, max_len * (img_size[0] + 1), max_len, device=device),
+                                  img_size[0], rounding_mode='trunc')
+        visual_bbox = torch.stack(
+            [
+                visual_bbox_x[:-1].repeat(img_size[0], 1),
+                visual_bbox_y[:-1].repeat(img_size[1], 1).transpose(0, 1),
+                visual_bbox_x[1:].repeat(img_size[0], 1),
+                visual_bbox_y[1:].repeat(img_size[1], 1).transpose(0, 1),
+            ],
+            dim=-1,
+        ).view(-1, 4)
+
+        cls_token_box = torch.tensor([[0 + 1, 0 + 1, max_len - 1, max_len - 1]], device=device, dtype=torch.long)
+        visual_bbox = torch.cat([cls_token_box, visual_bbox], dim=0)
+        
+        # Mở rộng theo batch size
+        visual_bbox = visual_bbox.repeat(bsz, 1, 1)
+        return visual_bbox.type(dtype)
 
     def forward_image(self, x):
         if self.detection:
